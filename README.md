@@ -1,116 +1,75 @@
-# homework-3-case-study
+### Homework 3
 
-# Assignment Description
+I did the Cut Cube and the Beaker for HW3.
 
-For this assignment, you will re-create various animations demonstrating a combination of toolbox functions and the rendering techniques you've already learned. The motivation for this is to help you become more familiar with toolbox functions as well as give you experience in producing a desired aesthetic.
-
-Below are multiple examples of periodic animations with assigned point values. You are required to complete EITHER:
-* One intermediate animation and one hard animation
-* Three intermediate animations
-* One Duck-Level-hard animation (at the very bottom)
-
-You have three options for implementing these:
-* Rasterizer, like homework 1
-* Raymarcher / implicit surfaces, like homework 2
-* Shadertoy (probably the easiest)
-
-You can also implement different scenes with different methods.
-
-If you'd like to implement any animations that are not listed below, you can make a _private_ post on Piazza and we will decide if they are appropriate for the assignment, and their difficulty classification. Check [/r/loadingicon](https://www.reddit.com/r/loadingicon) on Reddit for inspiration.
-
-*Extra Credit*: you can earn extra credit by creating interesting twists e.g. materials and animations that are not in the original reference. Since we are grading reference matching, additional features must be toggleable, either by a GUI option in your webgl site or by a #define statement in your Shadertoy code. This must be described in your writeup. Additionally, some of the references have some attributes that are exceptionally difficult, and do not need to be implemented for full credit; we will note what these are and they can count for extra credit.
-
-# Submission
-
-You must submit a writeup for this assignment by 11:59 PM on Thursday, Feb. 9th to canvas *as a .pdf or .txt*. If your projects are hosted on Github you should copy your writeup to a readme.
-
-Writeups must include, for each scene:
-* A link to the online implementation
-* A link to the reference animation
-* *Detailed* description of techniques used to emulate the reference, for both motion and rendering
-* If you implement extra credit, explain what it is and how to toggle it
-
-
-# Evaluation
-
-Each intermediate scene is worth 1/3 credit. Difficult scenes are 2/3 credit. Duck-level scenes are worth 100% credit.
-Extra credit is at grader discretion and cannot exceed 20 points.
-
-*If we cannot view your work online it will receive no credit.*
-
-All shaders will be graded by this scheme:
-* 65% Reference matching: does this show understanding of the motion, colors, and rendering techniques required to create the animation? This does not have to be pixel-perfect for full credit.
-* 20% Writeup completeness
-* 15% Performance considerations: motion should be fluid, ideally no less than 30 FPS at Shadertoy-resolution on a gaming laptop. If your shader (without EC) is seriously under-performant there will be a point penalty.
-
-# References: Intermediate Difficulty
-
-## Sweet Swing
-<img src="Images/sweetSwing.gif" width="400px" />
-
-#### Extra credit:
-- Convincing materials, rendering, textures
+## Performance Stats:
+I tested this on a laptop with a 1050. Both work really fast at around 50-60fps.
 
 ## Cut Cube
-<img src="https://i.imgur.com/sZa2PPI.gif" width="400px" />
 
-## Speedy Spin OR Speedy Cube
-<img src="https://i.imgur.com/AI00mHu.gif" width="400px" />
-<img src="https://i.imgur.com/Ltm5xjD.gif" width="400px" />
+[Shadertoy Demo](https://www.shadertoy.com/view/4s3czM)
 
-#### Notes:
-- Motion blur is required, *not* extra credit
+My Render:
+![](render/1.gif)
 
-## Paw Metaballs
-<img src="https://assets0.ello.co/uploads/asset/attachment/5159868/ello-optimized-99a5cfbf.gif" width="400px" />
+Reference:
+![](render/1_ref.gif)
 
-#### Notes:
-- Smooth blending during separation and joining of blobs is required
+Initially I was doing some sort of a keyframing. Keyframing results in branching so I reverted to a couple of curves to use as rotation & translation.
 
-## Tri-Colored Cube
-<img src="https://i.redd.it/e8dcpl3rw32z.gif" width="400px" />
+![](graphs/1_animation_curves.png)
 
-## Spindle of Death
-<img src="https://media.giphy.com/media/26DN7fdyFRqfBjqMw/giphy.gif" width="400px" />
+Functions:
+```
+f1 = x<0.5 ? 4.0*x*x*x : (x-1.0)*(2.0*x-2.0)*(2.0*x-2.0)+1.0 // Cubic Ease In Ease Out
+Yellow Curve = f2 = clamp(f1(x * 0.7 - 0.15), 0.0, 1.0)
 
-# References: Hard Difficulty
+f3 = clamp(x, 0.0, 1.0)
+f4 = clamp(-x + 3.75, 0.0, 1.0)
+Purple = min(f3(x * 2.0), f4(x * 2.0))
+```
 
-## Electron Orbitals
-<img src="http://i.imgur.com/MNw0Vrm.gif" width="400px" />
+I used the Yellow Curve for Rotation. As per the GIF there is a delay for translation and then there is a smooth rotation.
+Hence, I offset the curves by some amount so that the Translation (Purple) can complete.
 
-## Rainbow Step Cube
-<img src="https://78.media.tumblr.com/a5fc5d607e40fe345f5ba6e10fbb21a3/tumblr_or5m8jLTtd1r65ii5o1_500.gif" width="400px" />
+Overall, I warped the time a little more, so that I can fit the curve in my shader.
 
-#### Notes:
-- Height variation is required in the extrustions
+#### Post Processing
+
+I added Bloom / Glow to the image to make it more close to the gif. Reference: [Shadertoy](https://www.shadertoy.com/view/lsXGWn)
 
 ## Bubbling Beaker
-<img src="https://d13yacurqjgara.cloudfront.net/users/318273/screenshots/2029648/verve_lab_dribbble.gif" width="400px" />
 
-## Chocolate-Loving Shark
-<img src="https://i.imgur.com/ClgFpAW.gif" width="400px" />
+[Shadertoy Demo](https://www.shadertoy.com/view/ldcyz8)
 
-#### Notes:
-- Soft shadows required
+My Render:
+![](render/2.gif)
 
-#### Extra Credit:
-- Depth of field (screenspace, IQ has examples)
+Reference:
+![](render/2_ref.gif)
 
-## GameCube Loading Screen
-<img src="Images/gameCubeLogo.gif" width="400px" />
+I converted the 3D SDFs on [IQ's Blog](www.iquilezles.org/www/articles/distfunctions/distfunctions.htm) to 2D space and made the beaker. It seems a bit pixelated, but I guess we can alias that.
+For The water animation I used a bunch of sin curves with some noise. Bubbles are using another curve for scale up and scale down. I couldn't get the meta-ball like effect for the bubbles (ran out of time).
 
-#### Notes:
-- No text required
+Bubble Animation Curve:
 
-# Reference: Duck Level Difficulty
-<img src="http://i.imgur.com/0kvtMLE.gif" width="400px" />
+![](graphs/2_graph.png)
 
-#### Specifications:
-_good luck, duck!_
-- Modelling the duck
-- Head Bob
-- Tail Wag
-- Match the movement of the feet
-- Shading of the duck
-- Fake shadows as circles
+Functions:
+```
+f1 = x<0.5 ? 4.0*x*x*x : (x-1.0)*(2.0*x-2.0)*(2.0*x-2.0)+1.0 // Cubic Easing
+f3 = min(f1(x), 1.0)
+f5 = min(f4(x), 1.0)
+f6 = max(0.0, min(f3(x), f5(x)))
+```
 
+Liquid Water animation:
+
+The same curve below is used two times and phase shifted.
+
+![](graphs/2_water_graph.png)
+
+Functions:
+```
+f1 = -(sin(3.0*x)/x + 1.0) + (sin(2.0*(x * 2.3))/(x * 2.3) * 4.0)
+```

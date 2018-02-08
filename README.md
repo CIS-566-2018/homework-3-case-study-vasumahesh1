@@ -10,9 +10,11 @@ I tested this on a laptop with a 1050. Both work really fast at around 50-60fps.
 [Shadertoy Demo](https://www.shadertoy.com/view/4s3czM)
 
 My Render:
+
 ![](render/1.gif)
 
 Reference:
+
 ![](render/1_ref.gif)
 
 Initially I was doing some sort of a keyframing. Keyframing results in branching so I reverted to a couple of curves to use as rotation & translation.
@@ -43,9 +45,11 @@ I added Bloom / Glow to the image to make it more close to the gif. Reference: [
 [Shadertoy Demo](https://www.shadertoy.com/view/ldcyz8)
 
 My Render:
+
 ![](render/2.gif)
 
 Reference:
+
 ![](render/2_ref.gif)
 
 I converted the 3D SDFs on [IQ's Blog](www.iquilezles.org/www/articles/distfunctions/distfunctions.htm) to 2D space and made the beaker. It seems a bit pixelated, but I guess we can alias that.

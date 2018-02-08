@@ -19,7 +19,7 @@ Reference:
 
 Initially I was doing some sort of a keyframing. Keyframing results in branching so I reverted to a couple of curves to use as rotation & translation.
 
-![](graphs/1_animation_curves.png)
+![](graphs/1_animation_curves.PNG)
 
 Functions:
 ```
@@ -57,7 +57,7 @@ For The water animation I used a bunch of sin curves with some noise. Bubbles ar
 
 Bubble Animation Curve:
 
-![](graphs/2_graph.png)
+![](graphs/2_graph.PNG)
 
 Functions:
 ```
@@ -71,7 +71,7 @@ Liquid Water animation:
 
 The same curve below is used two times and phase shifted.
 
-![](graphs/2_water_graph.png)
+![](graphs/2_water_graph.PNG)
 
 Functions:
 ```

@@ -1,8 +1,9 @@
-### Homework 3
+# Homework 3
 
 I did the Cut Cube and the Beaker for HW3.
 
 ## Performance Stats:
+
 I tested this on a laptop with a 1050. Both work really fast at around 50-60fps.
 
 ## Cut Cube
